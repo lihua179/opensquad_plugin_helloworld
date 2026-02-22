@@ -1,31 +1,37 @@
-from opensquad.launcher import register
+# -*- coding: utf-8 -*-
+"""
+query.py - launcher data/action interface for opensquad_plugin_helloworld.
+
+launcher 调用约定：
+  query_data(project_root: str, params: dict) -> dict
+  handle_action(project_root: str, action: str, payload: dict) -> dict
+"""
+
 import time
 
-# 存储一个简单的内存状态，模拟数据更新
 _state = {
-    "welcome_msg": "Hello from OpenSquad!",
+    "message": "Hello from OpenSquad!",
     "last_interaction": None,
-    "counter": 0
+    "counter": 0,
 }
 
-@register(view="HelloWorldView", metadata={"title": "Hello World", "icon": "Smile"})
-def get_hello_data():
-    """返回给前端展示的数据"""
+
+def query_data(project_root: str, params: dict) -> dict:
+    """返回插件当前状态，供 GenericPluginView 展示。"""
     return {
-        "message": _state["welcome_msg"],
-        "counter": _state["counter"],
-        "last_interaction": _state["last_interaction"] or "Never"
+        "summary": {
+            "counter": _state["counter"],
+            "message": _state["message"],
+            "last_interaction": _state["last_interaction"] or "Never",
+        }
     }
 
-@register(action="update_counter")
-def handle_interaction(payload: dict):
-    """处理前端按钮点击的交互逻辑"""
-    _state["counter"] += 1
-    _state["last_interaction"] = time.strftime("%H:%M:%S")
-    _state["welcome_msg"] = f"You clicked the button! Counter is now {_state['counter']}."
-    
-    return {
-        "ok": True,
-        "new_counter": _state["counter"],
-        "toast": "Counter updated successfully!"
-    }
+
+def handle_action(project_root: str, action: str, payload: dict) -> dict:
+    """处理来自前端的操作。"""
+    if action == "update_counter":
+        _state["counter"] += 1
+        _state["last_interaction"] = time.strftime("%H:%M:%S")
+        _state["message"] = f"You clicked! Counter: {_state['counter']}"
+        return {"ok": True, "new_counter": _state["counter"]}
+    return {"ok": False, "error": f"Unknown action: {action}"}
