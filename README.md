@@ -1,1 +1,1 @@
-# opensquad_plugin_hollowwordopensquad_plugin_hollowword
+# opensquad_plugin_helloworld
