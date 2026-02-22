@@ -1,10 +1,29 @@
 {
-  "id": "opensquad_plugin_hollowword",
-  "name": "Hello World",
+  "id": "opensquad_plugin_helloworld",
+  "name": "opensquad_plugin_helloworld",
+  "display_name": "Hello World",
   "version": "1.0.0",
   "description": "一个简单的 Hello World 演示插件，展示基础的 Web UI 交互。",
   "author": "lihua179",
   "type": "tool",
   "enabled": true,
-  "git_url": "https://github.com/lihua179/opensquad_plugin_hollowword"
+  "git_url": "https://github.com/lihua179/opensquad_plugin_helloworld",
+  "tags": ["demo"],
+  "tools": [],
+  "hooks": [],
+  "config": {},
+  "config_schema": {},
+  "contributes": {
+    "views": [
+      {
+        "name": "main",
+        "title": "Hello World",
+        "icon": "Smile",
+        "data_endpoint": "/api/plugins/opensquad_plugin_helloworld/data"
+      }
+    ]
+  },
+  "dependencies": {
+    "pip": []
+  }
 }
